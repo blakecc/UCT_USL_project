@@ -9,7 +9,7 @@ output:
   html_notebook: default
   html_document: default
  
-bibliography: library.bib
+bibliography: other/library.bib
 ---
 
 ```{r load_libraries, eval=T, echo=F, message=FALSE}
@@ -52,32 +52,32 @@ for (i in 1:length(list.of.packages)){
 rm(list = c("i","list.of.packages", "new.packages"))
 
 # setwd("E:\\DataScienceData\\SL_Assignment")
-setwd("/Users/blakecuningham/Dropbox (Personal)/MScDataScience/Unsupervised Learning/Assignment")
+# setwd("/Users/blakecuningham/Dropbox (Personal)/MScDataScience/Unsupervised Learning/Assignment")
 
-leuk <- readRDS("leuk.rds")
+leuk <- readRDS("output/leuk.rds")
 
-tu_tsne_frame <- readRDS("tu_tsne_frame.rds")
-tu_model_matrix_scaled_dist_out_classic <- readRDS("tu_model_matrix_scaled_dist_out_classic.rds")
-tu_model_matrix_scaled_dist_out_sammon <- readRDS("tu_model_matrix_scaled_dist_out_sammon.rds")
-tu_model_matrix_scaled_dist_out_smacofM <- readRDS("tu_model_matrix_scaled_dist_out_smacofM.rds")
-tu_model_matrix_scaled_dist_out_smacofNM <- readRDS("tu_model_matrix_scaled_dist_out_smacofNM.rds")
-tu_model_matrix_scaled_dist_out_Kruskal <- readRDS("tu_model_matrix_scaled_dist_out_Kruskal.rds")
+tu_tsne_frame <- readRDS("output/tu_tsne_frame.rds")
+tu_model_matrix_scaled_dist_out_classic <- readRDS("output/tu_model_matrix_scaled_dist_out_classic.rds")
+tu_model_matrix_scaled_dist_out_sammon <- readRDS("output/tu_model_matrix_scaled_dist_out_sammon.rds")
+tu_model_matrix_scaled_dist_out_smacofM <- readRDS("output/tu_model_matrix_scaled_dist_out_smacofM.rds")
+tu_model_matrix_scaled_dist_out_smacofNM <- readRDS("output/tu_model_matrix_scaled_dist_out_smacofNM.rds")
+tu_model_matrix_scaled_dist_out_Kruskal <- readRDS("output/tu_model_matrix_scaled_dist_out_Kruskal.rds")
 
-leuk_transformed_cols_range01 <- readRDS("leuk_transformed_cols_range01.rds")
-leuk_transformed_full_range01 <- readRDS("leuk_transformed_full_range01.rds")
-leuk_transformed_cols_centeredscaled <- readRDS("leuk_transformed_cols_centeredscaled.rds")
-leuk_transformed_log <- readRDS("leuk_transformed_log.rds")
-leuk_transformed_log_cols_range01 <- readRDS("leuk_transformed_log_cols_range01.rds")
-leuk_transformed_log_cols_centeredscaled <- readRDS("leuk_transformed_log_cols_centeredscaled.rds")
-list_scaled <- readRDS("list_scaled.rds")
-list_dist <- readRDS("list_dist.rds")
-list_top100_scaled <- readRDS("list_top100_scaled.rds")
-list_top100_dist <- readRDS("list_top100_dist.rds")
+leuk_transformed_cols_range01 <- readRDS("output/leuk_transformed_cols_range01.rds")
+leuk_transformed_full_range01 <- readRDS("output/leuk_transformed_full_range01.rds")
+leuk_transformed_cols_centeredscaled <- readRDS("output/leuk_transformed_cols_centeredscaled.rds")
+leuk_transformed_log <- readRDS("output/leuk_transformed_log.rds")
+leuk_transformed_log_cols_range01 <- readRDS("output/leuk_transformed_log_cols_range01.rds")
+leuk_transformed_log_cols_centeredscaled <- readRDS("output/leuk_transformed_log_cols_centeredscaled.rds")
+list_scaled <- readRDS("output/list_scaled.rds")
+list_dist <- readRDS("output/list_dist.rds")
+list_top100_scaled <- readRDS("output/list_top100_scaled.rds")
+list_top100_dist <- readRDS("output/list_top100_dist.rds")
 
 ###Q2
 
-tu_cars2 <- readRDS("tu_cars2.rds")
-tu_model_matrix <- readRDS("tu_model_matrix.rds")
+tu_cars2 <- readRDS("output/tu_cars2.rds")
+tu_model_matrix <- readRDS("output/tu_model_matrix.rds")
 
 ```
 
@@ -112,7 +112,7 @@ Finally, we move beyond visual inspection to test how well our data clusters int
 # prepare leukemia dataframe
 ##################################################
 
-leuk <- read.table("leukemia_array.txt")
+leuk <- read.table("data/leukemia_array.txt")
 leuk <- t(leuk)
 leuk <- data.frame(leuk)
 
@@ -120,7 +120,7 @@ leuk$class <- row.names(leuk)
 leuk$class <- sapply(strsplit(as.character(leuk$class),'_'), "[", 2)
 leuk <- leuk[,c(ncol(leuk),1:(ncol(leuk)-1))]
 
-saveRDS(leuk, "leuk.rds")
+saveRDS(leuk, "output/leuk.rds")
 
 ```
 
@@ -147,12 +147,12 @@ leuk_transformed_log_cols_range01 <- cbind("class" = leuk$class, data.frame(appl
 #Tranformation: center and divide by sd of log transform
 leuk_transformed_log_cols_centeredscaled <- cbind("class" = leuk$class, data.frame(apply(leuk[,-1], MARGIN = 2, FUN = function(X) (log(X) - mean(log(X))) / sd(log(X)))))
 
-saveRDS(leuk_transformed_cols_range01, "leuk_transformed_cols_range01.rds")
-saveRDS(leuk_transformed_full_range01, "leuk_transformed_full_range01.rds")
-saveRDS(leuk_transformed_cols_centeredscaled, "leuk_transformed_cols_centeredscaled.rds")
-saveRDS(leuk_transformed_log, "leuk_transformed_log.rds")
-saveRDS(leuk_transformed_log_cols_range01, "leuk_transformed_log_cols_range01.rds")
-saveRDS(leuk_transformed_log_cols_centeredscaled, "leuk_transformed_log_cols_centeredscaled.rds")
+saveRDS(leuk_transformed_cols_range01, "output/leuk_transformed_cols_range01.rds")
+saveRDS(leuk_transformed_full_range01, "output/leuk_transformed_full_range01.rds")
+saveRDS(leuk_transformed_cols_centeredscaled, "output/leuk_transformed_cols_centeredscaled.rds")
+saveRDS(leuk_transformed_log, "output/leuk_transformed_log.rds")
+saveRDS(leuk_transformed_log_cols_range01, "output/leuk_transformed_log_cols_range01.rds")
+saveRDS(leuk_transformed_log_cols_centeredscaled, "output/leuk_transformed_log_cols_centeredscaled.rds")
 
 list_scaled <- list("Range 0-1 per column" = leuk_transformed_cols_range01,
                     "Range 0-1 for all data" = leuk_transformed_full_range01,
@@ -161,7 +161,7 @@ list_scaled <- list("Range 0-1 per column" = leuk_transformed_cols_range01,
                     "Log transform and Range 0-1 per column" = leuk_transformed_log_cols_range01,
                     "Log transform and centred and scaled per columns" = leuk_transformed_log_cols_centeredscaled)
 
-saveRDS(list_scaled, "list_scaled.rds")
+saveRDS(list_scaled, "output/list_scaled.rds")
 
 ```
 
@@ -265,12 +265,12 @@ leuk_top100_transformed_log_cols_range01 <- cbind("class" = leuk_top100only$clas
 leuk_top100_transformed_log_cols_centeredscaled <- cbind("class" = leuk_top100only$class, data.frame(apply(leuk_top100only[,-1], MARGIN = 2, FUN = function(X) (log(X) - mean(log(X))) / sd(log(X)))))
 
 
-saveRDS(leuk_top100_transformed_cols_range01, "leuk_top100_transformed_cols_range01.rds")
-saveRDS(leuk_top100_transformed_full_range01, "leuk_top100_transformed_full_range01.rds")
-saveRDS(leuk_top100_transformed_cols_centeredscaled, "leuk_top100_transformed_cols_centeredscaled.rds")
-saveRDS(leuk_top100_transformed_log, "leuk_top100_transformed_log.rds")
-saveRDS(leuk_top100_transformed_log_cols_range01, "leuk_top100_transformed_log_cols_range01.rds")
-saveRDS(leuk_top100_transformed_log_cols_centeredscaled, "leuk_top100_transformed_log_cols_centeredscaled.rds")
+saveRDS(leuk_top100_transformed_cols_range01, "output/leuk_top100_transformed_cols_range01.rds")
+saveRDS(leuk_top100_transformed_full_range01, "output/leuk_top100_transformed_full_range01.rds")
+saveRDS(leuk_top100_transformed_cols_centeredscaled, "output/leuk_top100_transformed_cols_centeredscaled.rds")
+saveRDS(leuk_top100_transformed_log, "output/leuk_top100_transformed_log.rds")
+saveRDS(leuk_top100_transformed_log_cols_range01, "output/leuk_top100_transformed_log_cols_range01.rds")
+saveRDS(leuk_top100_transformed_log_cols_centeredscaled, "output/leuk_top100_transformed_log_cols_centeredscaled.rds")
 
 list_top100_scaled <- list("Range 0-1 per column" = leuk_top100_transformed_cols_range01,
                     "Range 0-1 for all data" = leuk_top100_transformed_full_range01,
@@ -279,7 +279,7 @@ list_top100_scaled <- list("Range 0-1 per column" = leuk_top100_transformed_cols
                     "Log transform and Range 0-1 per column" = leuk_top100_transformed_log_cols_range01,
                     "Log transform and centred and scaled per columns" = leuk_top100_transformed_log_cols_centeredscaled)
 
-saveRDS(list_top100_scaled, "list_top100_scaled.rds")
+saveRDS(list_top100_scaled, "output/list_top100_scaled.rds")
 ```
 
 ```{r, eval=T, echo=F}
@@ -359,7 +359,7 @@ for (i in list_scaled){
   k = k + 1
 }
 
-saveRDS(list_dist, "list_dist.rds")
+saveRDS(list_dist, "output/list_dist.rds")
 
 ```
 
@@ -440,7 +440,7 @@ for (i in list_top100_scaled){
   k = k + 1
 }
 
-saveRDS(list_top100_dist, "list_top100_dist.rds")
+saveRDS(list_top100_dist, "output/list_top100_dist.rds")
 
 ```
 
@@ -617,8 +617,8 @@ tu_cars2 <- unique(tu_cars2)
 #get into workable form
 tu_model_matrix <- data.frame(model.matrix( ~ . -1, tu_cars2))
 
-saveRDS(tu_cars2, "tu_cars2.rds")
-saveRDS(tu_model_matrix, "tu_model_matrix.rds")
+saveRDS(tu_cars2, "output/tu_cars2.rds")
+saveRDS(tu_model_matrix, "output/tu_model_matrix.rds")
 
 ```
 
@@ -688,7 +688,7 @@ tu_tsne_frame <- data.frame(cbind(tu_tsne_frame, km.tu_2$cluster))
 colnames(tu_tsne_frame) <- c("X", "Y", "class", "class_tsne")
 tu_tsne_frame$class_tsne <- as.factor(tu_tsne_frame$class_tsne)
 
-saveRDS(tu_tsne_frame, "tu_tsne_frame.rds")
+saveRDS(tu_tsne_frame, "output/tu_tsne_frame.rds")
 ```
 
 The four clusters are fairly distinct in this representation, but the t-SNE clumps indicate that further analysis could yield other clusters based off the t-SNE data itself:
@@ -721,7 +721,7 @@ tu_model_matrix_scaled_dist_out_classic <- cbind(tu_model_matrix_scaled_dist_out
 colnames(tu_model_matrix_scaled_dist_out_classic) <- c("X1", "X2", "km_class")
 tu_model_matrix_scaled_dist_out_classic$km_class <- as.factor(tu_model_matrix_scaled_dist_out_classic$km_class)
 
-saveRDS(tu_model_matrix_scaled_dist_out_classic, "tu_model_matrix_scaled_dist_out_classic.rds")
+saveRDS(tu_model_matrix_scaled_dist_out_classic, "output/tu_model_matrix_scaled_dist_out_classic.rds")
 ```
 
 Classical scaling is a metric MDS approach (approximate inter-sample dissimilarities as closely as possible). The shape of the data here is quite similar to the PCA bi-plot. The clusters are quite clearly separated, with no strong outliers:
@@ -748,7 +748,7 @@ tu_model_matrix_scaled_dist_out_smacofM <- cbind(tu_model_matrix_scaled_dist_out
 colnames(tu_model_matrix_scaled_dist_out_smacofM) <- c("X1", "X2", "km_class")
 tu_model_matrix_scaled_dist_out_smacofM$km_class <- as.factor(tu_model_matrix_scaled_dist_out_smacofM$km_class)
 
-saveRDS(tu_model_matrix_scaled_dist_out_smacofM, "tu_model_matrix_scaled_dist_out_smacofM.rds")
+saveRDS(tu_model_matrix_scaled_dist_out_smacofM, "output/tu_model_matrix_scaled_dist_out_smacofM.rds")
 
 ```
 
@@ -776,7 +776,7 @@ tu_model_matrix_scaled_dist_out_smacofNM <- cbind(tu_model_matrix_scaled_dist_ou
 colnames(tu_model_matrix_scaled_dist_out_smacofNM) <- c("X1", "X2", "km_class")
 tu_model_matrix_scaled_dist_out_smacofNM$km_class <- as.factor(tu_model_matrix_scaled_dist_out_smacofNM$km_class)
 
-saveRDS(tu_model_matrix_scaled_dist_out_smacofNM, "tu_model_matrix_scaled_dist_out_smacofNM.rds")
+saveRDS(tu_model_matrix_scaled_dist_out_smacofNM, "output/tu_model_matrix_scaled_dist_out_smacofNM.rds")
 
 ```
 
@@ -804,7 +804,7 @@ tu_model_matrix_scaled_dist_out_Kruskal <- cbind(tu_model_matrix_scaled_dist_out
 colnames(tu_model_matrix_scaled_dist_out_Kruskal) <- c("X1", "X2", "km_class")
 tu_model_matrix_scaled_dist_out_Kruskal$km_class <- as.factor(tu_model_matrix_scaled_dist_out_Kruskal$km_class)
 
-saveRDS(tu_model_matrix_scaled_dist_out_Kruskal, "tu_model_matrix_scaled_dist_out_Kruskal.rds")
+saveRDS(tu_model_matrix_scaled_dist_out_Kruskal, "output/tu_model_matrix_scaled_dist_out_Kruskal.rds")
 
 ```
 
@@ -832,7 +832,7 @@ tu_model_matrix_scaled_dist_out_sammon <- cbind(tu_model_matrix_scaled_dist_out_
 colnames(tu_model_matrix_scaled_dist_out_sammon) <- c("X1", "X2", "km_class")
 tu_model_matrix_scaled_dist_out_sammon$km_class <- as.factor(tu_model_matrix_scaled_dist_out_sammon$km_class)
 
-saveRDS(tu_model_matrix_scaled_dist_out_sammon, "tu_model_matrix_scaled_dist_out_sammon.rds")
+saveRDS(tu_model_matrix_scaled_dist_out_sammon, "output/tu_model_matrix_scaled_dist_out_sammon.rds")
 
 ```
 
